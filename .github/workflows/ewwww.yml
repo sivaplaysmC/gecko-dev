@@ -1,0 +1,44 @@
+name: Build Firefox cool
+
+on:
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Rust
+        uses: rust-lang/rustup.sh@v1
+        with:
+          default-toolchain: stable
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            clang \
+            libgtk-3-dev \
+            libdbus-glib-1-dev \
+            libglib2.0-dev \
+            wget \
+            python3 \
+            zip
+
+      - name: Build Firefox
+        run: |
+          ./mach build
+
+      - name: Create Artifact
+        run: |
+          cd obj-x86_64-linux-gnu/dist
+          zip -r firefox-build.zip *
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: firefox-build
+          path: obj-x86_64-linux-gnu/dist/firefox-build.zip
