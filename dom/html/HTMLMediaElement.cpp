@@ -183,7 +183,7 @@ static const uint32_t STALL_MS = 3000;
 // Minimum playbackRate for a media
 static const double MIN_PLAYBACKRATE = 1.0 / 16;
 // Maximum playbackRate for a media
-static const double MAX_PLAYBACKRATE = 16.0;
+static const double MAX_PLAYBACKRATE = 2048.0;
 
 static double ClampPlaybackRate(double aPlaybackRate) {
   MOZ_ASSERT(aPlaybackRate >= 0.0);
